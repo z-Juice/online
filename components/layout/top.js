@@ -1,5 +1,5 @@
 import css from './layout.less';
-import { Icon } from 'antd';
+import { Icon, Badge } from 'antd';
 
 export default class top extends React.Component {
 
@@ -17,6 +17,9 @@ export default class top extends React.Component {
       </div>
       <div className={css.right + " fr"}>
         <div className={css.signin}>
+        <Badge count={5}>
+          <Icon type="shopping-cart" className={css.icon} />
+        </Badge>
           {/* <!-- 未登录 -->*/}
           <a href="#">登录 </a> <span> |</span> <a href="#"> 注册</a>
           {/* <!-- 登录 --> */}

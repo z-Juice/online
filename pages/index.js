@@ -13,7 +13,6 @@ const Home = () => (
     {/* <Head title="Home" /> */}
     <Head>
       <title>首页</title>
-      <link rel="stylesheet" href="/static/less/antd.css"/>>
     </Head>
     <Nav />
     <Button type="primary" icon="search">搜索</Button>

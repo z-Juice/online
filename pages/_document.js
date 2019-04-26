@@ -10,8 +10,8 @@ export default class MyDocument extends Document {
     return (
       <html>
         <Head>
+          <link rel="stylesheet" href="/static/less/antd.css" />
           <link rel="stylesheet" href="/static/less/base.css" />
-          <style>{`body { margin: 0 } /* custom! */`}</style>
         </Head>
         <body className="custom_class">
           <Main />
