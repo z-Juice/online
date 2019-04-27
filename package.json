@@ -9,6 +9,8 @@
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-less": "^1.0.1",
     "antd": "^3.16.5",
+    "es6-promise": "^4.2.6",
+    "isomorphic-fetch": "^2.2.1",
     "less": "^3.9.0",
     "next": "^8.1.0",
     "next-redux-wrapper": "^3.0.0-alpha.2",
