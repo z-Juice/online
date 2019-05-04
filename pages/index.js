@@ -1,54 +1,52 @@
 import React from 'react'
 import Link from 'next/link'
-// import Head from '../components/head'
-import Nav from '../components/nav'
 import Head from 'next/head'
+import { connect } from 'react-redux'
 
 import style from '../static/less/style.less'
 
-import {Button} from 'antd'
+import { Button } from 'antd'
 
-const Home = () => (
-  <div>
-    {/* <Head title="Home" /> */}
-    <Head>
-      <title>首页</title>
-    </Head>
-    <Nav />
-    <Button type="primary" icon="search">搜索</Button>
+class Index extends React.Component {
+  render() {
+    return <div>
+      <Head>
+        <title>首页</title>
+      </Head>
+      <Button type="primary" icon="search">搜索</Button>
 
-    <div className="hero">
-      <h1 className={style.title}>Welcome to Next!</h1>
-      <p className="description">
-        To get started, edit <code>pages/index.js</code> and save to reload.
+      <div className="hero">
+        <h1 className="title" style={{ color: this.props.testReducer.color }}>Welcome to Next!</h1>
+        <p className="description">
+          To get started, edit <code>pages/index.js</code> and save to reload.
       </p>
 
-      <div className="row">
-        <Link href="https://github.com/zeit/next.js#getting-started">
-          <a className="card">
-            <h3>Getting Started &rarr;</h3>
-            <p>Learn more about Next on Github and in their examples</p>
-          </a>
-        </Link>
-        <Link href="https://open.segment.com/create-next-app">
-          <a className="card">
-            <h3>Examples &rarr;</h3>
-            <p>
-              Find other example boilerplates on the{' '}
-              <code>create-next-app</code> site
+        <div className="row">
+          <Link href="https://github.com/zeit/next.js#getting-started">
+            <a className="card">
+              <h3>Getting Started &rarr;</h3>
+              <p>Learn more about Next on Github and in their examples</p>
+            </a>
+          </Link>
+          <Link href="https://open.segment.com/create-next-app">
+            <a className="card">
+              <h3>Examples &rarr;</h3>
+              <p>
+                Find other example boilerplates on the{' '}
+                <code>create-next-app</code> site
             </p>
-          </a>
-        </Link>
-        <Link href="https://github.com/segmentio/create-next-app">
-          <a className="card">
-            <h3>Create Next App &rarr;</h3>
-            <p>Was this tool helpful? Let us know how we can improve it</p>
-          </a>
-        </Link>
+            </a>
+          </Link>
+          <Link href="https://github.com/segmentio/create-next-app">
+            <a className="card">
+              <h3>Create Next App &rarr;</h3>
+              <p>Was this tool helpful? Let us know how we can improve it</p>
+            </a>
+          </Link>
+        </div>
       </div>
-    </div>
 
-    <style jsx>{`
+      <style jsx>{`
       .hero {
         width: 100%;
         color: #333;
@@ -94,7 +92,14 @@ const Home = () => (
         color: #333;
       }
     `}</style>
-  </div>
-)
+    </div>
+  }
+}
 
-export default Home
+const mapStateToProps = (state) => {
+  return {
+    ...state
+  }
+}
+
+export default connect(mapStateToProps, null)(Index)

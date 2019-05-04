@@ -1,7 +1,8 @@
 import css from './layout.less';
+import { connect } from 'react-redux';
 import { Icon, Badge } from 'antd';
 
-export default class top extends React.Component {
+class top extends React.Component {
 
   render() {
     return <header className={css.headtop + " w"}>
@@ -10,6 +11,8 @@ export default class top extends React.Component {
         <a className={css.a} href="">首页</a>
         <a className={css.a} href="">课程</a>
         <a className={css.a} href="">职业规划</a>
+        <a href="#" onClick={()=>this.props.onSwitchColor('blue')}>蓝色 </a>
+        <a href="#" onClick={()=>this.props.onSwitchColor('red')}>红色 </a>
       </div>
       <div className={css.input + " fl"}>
         <input type="text" className="fl" placeholder="输入查询关键字" />
@@ -17,9 +20,9 @@ export default class top extends React.Component {
       </div>
       <div className={css.right + " fr"}>
         <div className={css.signin}>
-        <Badge count={5}>
-          <Icon type="shopping-cart" className={css.icon} />
-        </Badge>
+          <Badge count={5}>
+            <Icon type="shopping-cart" className={css.icon} />
+          </Badge>
           {/* <!-- 未登录 -->*/}
           <a href="#">登录 </a> <span> |</span> <a href="#"> 注册</a>
           {/* <!-- 登录 --> */}
@@ -31,3 +34,13 @@ export default class top extends React.Component {
 
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onSwitchColor: (color) => {
+      dispatch({ type: 'CHANGE_COLOR', color: color })
+    }
+  }
+}
+
+export default connect(null, mapDispatchToProps)(top)
