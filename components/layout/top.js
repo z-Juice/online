@@ -11,8 +11,6 @@ class top extends React.Component {
         <a className={css.a} href="">首页</a>
         <a className={css.a} href="">课程</a>
         <a className={css.a} href="">职业规划</a>
-        <a href="#" onClick={()=>this.props.onSwitchColor('blue')}>蓝色 </a>
-        <a href="#" onClick={()=>this.props.onSwitchColor('red')}>红色 </a>
       </div>
       <div className={css.input + " fl"}>
         <input type="text" className="fl" placeholder="输入查询关键字" />
@@ -20,6 +18,8 @@ class top extends React.Component {
       </div>
       <div className={css.right + " fr"}>
         <div className={css.signin}>
+          <a href="#" onClick={()=>this.props.onSwitchColor('blue')}>蓝色 </a>
+          <a href="#" onClick={()=>this.props.onSwitchColor('red')}>红色 </a>
           <Badge count={5}>
             <Icon type="shopping-cart" className={css.icon} />
           </Badge>

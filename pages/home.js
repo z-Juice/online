@@ -16,7 +16,7 @@ class home extends React.Component {
         <title>Home页面</title>
       </Head>
       <span style={{ color: this.props.testReducer.color }}>Home</span>
-      <Link href={{ pathname: '/index' }}>
+      <Link href='/index'>
         <Button type="danger" size="large">返回到index页</Button>
       </Link>
     </div>
