@@ -12,7 +12,6 @@ class Index extends React.Component {
   // 1.0 轮播图和导航数据通过getInitialProps()方法获取
   static async getInitialProps() {
       let res = await fetchHelper.get('/nc/course/courseDetial/getCourseDetial/102');
-      console.log(res.message.CourseDetial)
       return {
         courseDetail: res.message.CourseDetial
       }
@@ -24,7 +23,6 @@ class Index extends React.Component {
         <title>首页</title>
       </Head>
       课表标题为：
-      {console.log(this.props)}
       {this.props.courseDetail.title}
       <Button type="primary" icon="search">搜索</Button>
 
