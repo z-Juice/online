@@ -5,24 +5,134 @@ import fetchHelper from '../../kits/fetchHelper.js'
 const FormItem = Form.Item;
 
 class Register extends React.Component {
+    constructor (props) {
+        super();
+        this.state = {
+            time: 5,
+            interHander: null,
+            bttxt: '获取验证码',
+            isClick: false // 表示获取验证码按钮初始情况下是可以被点击的
+        }
+    }
+    
     //发送注册请求
-    register = () => {
-        
+    register = (e) => {
+        // 为了能够正常验证表单，需要做两件事情:
+        // 1.0 利用getFieldDecorator 来进行表单元素合法性检查
+        // 2.0 在onSubmit指定的方法中利用this.props.form.validateFieds()来进行表单合法性检查的触发动作
+        e.preventDefault(); //阻止默认事件触发
+        this.props.form.validateFields((err, values) => {
+            // 如果err有值则表示验证报错，否则values就会将表单中的所有元素的值获取到
+            if (!err) {
+                // 处理正常的注册逻辑
+                this.checkuser(()=>{
+                    // 将用户输入的注册信息提交给服务器完成注册动作
+                    // console.log('发起注册请求')
+                    // 1.0 默认注册的是普通用户
+                    values.role = 0;
+                    // 2.0 通过featch请求将values数据提交给服务器
+                    fetchHelper.post('/nc/common/account/register',values)
+                    .then(json=>{
+                        if(json.status ==1){
+                            message.error(json.message,1)
+                        }else{
+                            message.success(json.message.text,1,()=>{
+                                // 3.0 刷新页面
+                                window.location = window.location;
+                            })
+                        }
+                    })
+                });
+            }
+        })
     }
 
     //定义手机号码是否已经被注册逻辑
-    checkuser () {
+    checkuser (callback) {
+        // 1.0 获取注册手机号码文本框的内容
+        let tel = this.props.form.getFieldValue('user_name')
 
+        // 2.0 将手机号码传入到服务器 /nc/common/account/checkuser
+        fetchHelper.post('/nc/common/account/checkuser',{username:tel})
+        .then(json=>{
+            if(json.status == 1){
+                message.error('服务器处理异常',1)
+            }else{
+                // 正常的处理
+                // 3.0 如果服务器响应回来的 message.isRegister为true 的话则应该提示用户该手机号码被注册了
+                if(json.message.isRegister){
+                    this.props.form.setFields({
+                        ['user_name']: {value:tel , errors: [new Error('手机号码被注册，请更换')] }
+                    })
+                }else{
+                    // 当前手机号码可以使用
+                    if(typeof callback === 'function'){
+                        callback()
+                    }
+                }
+            }
+        })
     }
 
     //获取短信验证码
     getSMSCode () {
+        // 1.0 获取用户输入的手机号码
+        let tel = this.props.form.getFieldValue('user_name')
 
+        // 1.0.1 判断用户必须输入手机号码
+        if(!tel || tel.length <= 0){
+            message.warn('用户手机号必须输入');
+            return;
+        }
+
+        // 2.0 调用短信接口将手机号码传入
+        fetchHelper.post('/nc/common/account/snscode',{username:tel})
+        .then(json=>{
+            if(json.status == 1){
+                // 提示用户服务器处理异常
+                message.error(json.message,1)
+                this.setButtonState()
+            }else{
+                // 服务器处理成功
+                message.success(json.message.reason,2);
+                this.setButtonState()
+            }
+        })
     }
 
     //定义一个方法用来控制按钮的是否可点击状态和倒计时功能
     setButtonState () {
+        // 1.0.1 将获取验证码按钮变为不可点击状态
+        this.setState({
+            isClick:true
+        })
 
+        // 1.0.2 开启倒计时功能，当倒计时到0秒的时候按钮重新可以点击
+        this.state.interHander = setInterval(()=>{
+            // 1.0 将time的值减掉1
+            this.state.time--;
+
+            // 1.0.1 当time变为<=0的时候应该讲获取验证码按钮变为可点击的状态,同时关闭当前定时器
+            if(this.state.time<=0){
+                this.setState({
+                    isClick:false,
+                    bttxt:'获取验证码' 
+                })
+
+                // 关闭当前定时器
+                if(this.state.interHander){
+                    clearInterval(this.state.interHander)
+                }
+                return;
+            }
+
+            // 2.0 将time和一个固定的文本“秒后再次获取”替换按钮中的文本
+            let newBttxt = `${this.state.time}秒后再次获取`;
+            this.setState({
+                bttxt: newBttxt
+            });
+
+        },1000)
     }
 
     // 定义一个密码是否一致的函数，来判断再次输入密码框中的密码字符串必须与密码框中的密码字符串一致
@@ -33,13 +143,15 @@ class Register extends React.Component {
      * 如果验证通过，直接callback()即可，里面不需要传入任何提示语字符串
      *  */
     checkpwd (rule, value, callback) {
-
-    }
-
-    //定义一个state
-    state = {
-        bttxt:'获取验证码',
-        isClick:false // 表示获取验证码按钮初始情况下是可以被点击的
+        // 1.0 获取密码框中的密码字符串
+        let pwd = this.props.form.getFieldValue('password')
+        // 2.0 对比两次输入的密码算法相同
+        if(value != pwd){
+            callback('两次输入的密码不一致')
+        }else{
+            // 通过检查
+            callback()
+        }
     }
 
     render() {
@@ -90,9 +202,7 @@ class Register extends React.Component {
                     )}
                 </FormItem>
                 <FormItem>
-                    <Button type="primary" htmlType="submit" className="login-form-button">
-                        注册
-                </Button>
+                    <Button type="primary" htmlType="submit" className="login-form-button">注册</Button>
                 </FormItem>
             </Form>
         )
