@@ -187,10 +187,10 @@ class detail extends React.Component {
                                 <TabPane tab={<span><Icon type="usergroup-add" />授课老师</span>} key="3">
                                     <div className={css.tabp}>
                                         <Row>
-                                            <Col span="3"><img src={this.props.courseInfo.teacher_img} alt="讲师" width="120px" height="120px" /></Col>
-                                            <Col span="21">
-                                                <Row> <Col span="24">{this.props.courseInfo.teacher_name}</Col></Row>
-                                                <Row> <Col span="24" style={{ fontWeight: 'bold' }}>{this.props.courseInfo.teacher_desc}</Col></Row>
+                                            <Col span={3}><img src={this.props.courseInfo.teacher_img} alt="讲师" width="120px" height="120px" /></Col>
+                                            <Col span={21}>
+                                                <Row> <Col span={24}>{this.props.courseInfo.teacher_name}</Col></Row>
+                                                <Row> <Col span={24} style={{ fontWeight: 'bold' }}>{this.props.courseInfo.teacher_desc}</Col></Row>
                                             </Col>
                                         </Row>
                                     </div>

@@ -11,10 +11,11 @@ const config = {
 
 // 导入具体的业务reducer
 import testReducer from '../reducer/testReducer.js'
+import shopCarCountReducer from '../reducer/shopCarCountReducer.js'
 
 // 将多个reducer编译成统一的rootReducer
 const rootReducer = combineReducers({
-  testReducer  //颜色改变测试reducer，无实际意义
+  testReducer, shopCarCountReducer
 })
 
 // 3.0.1、利用persistReducer将rootReducer重新包装后返回新对象pReducer

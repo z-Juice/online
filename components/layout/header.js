@@ -5,26 +5,26 @@ import css from './layout.less';
 import { getUser, removeUser } from '../../kits/storageHelper.js'
 import fetchHelper from '../../kits/fetchHelper.js'
 
-class top extends React.Component {
+class head extends React.Component {
 
   //  登出系统逻辑处理
-  logout(){
+  logout() {
     // 1.0 调用数据服务接口将服务器的当前浏览器的session清除
     fetchHelper.get('/nc/common/account/logout')
-    .then(json=>{
-        if(json.status == 1){
-            // 请求失败 
-            message.error(json.message,1)
-        }else{
-             // 2.0 清除浏览器中的sessionStroage中的当前用户信息
-             removeUser()
+      .then(json => {
+        if (json.status == 1) {
+          // 请求失败 
+          message.error(json.message, 1)
+        } else {
+          // 2.0 清除浏览器中的sessionStroage中的当前用户信息
+          removeUser()
 
-             // 3.0 跳转到登录页面
-             window.location = '/account/login'
+          // 3.0 跳转到登录页面
+          window.location = '/account/login'
         }
-    })
-   
-}
+      })
+
+  }
 
   render() {
     const user = getUser();
@@ -32,7 +32,9 @@ class top extends React.Component {
     return <header className={css.headtop + " w"}>
       <a href="" className="fl"><img src="/static/img/asset-logoIco.png" alt="" /></a>
       <div className={css.left + " fl"}>
-        <a className={css.a} href="">首页</a>
+        <Link href={{pathname:'/index'}}>
+          <a className={css.a}>首页</a>
+        </Link>
         <a className={css.a} href="">课程</a>
         <a className={css.a} href="">职业规划</a>
       </div>
@@ -42,20 +44,22 @@ class top extends React.Component {
       </div>
       <div className={css.right + " fr"}>
         <div className={css.signin}>
-          <a href="#" onClick={()=>this.props.onSwitchColor('blue')}>蓝色 </a>
-          <a href="#" onClick={()=>this.props.onSwitchColor('red')}>红色 </a>
-          <Badge count={5}>
-            <Icon type="shopping-cart" className={css.icon} />
-          </Badge>
+          <a href="#" onClick={() => this.props.onSwitchColor('blue')}>蓝色 </a>
+          <a href="#" onClick={() => this.props.onSwitchColor('red')}>红色 </a>
+          <Link  href={{ pathname: '/car/carlist' }}>
+            <Badge count={this.props.shopCarCountReducer.count}>
+              <Icon style={{cursor:'pointer'}} type="shopping-cart" className={css.icon} />
+            </Badge>
+          </Link>
           {
             user.uid ?
               <span>
                 {/* <!-- 登录 --> */}
                 <a href="#" ><Icon type="bell" theme="twoTone" />个人中心</a>
                 <a href="#" ><img src="/static/img/asset-myImg.jpg" alt="" width="30" height="30" />{user.nick_name}</a>
-                <a href="#" onClick={()=>{this.logout()}}>退出</a>
+                <a href="#" onClick={() => { this.logout() }}>退出</a>
               </span>
-            :
+              :
               <span>
                 {/* <!-- 未登录 -->*/}
                 <Link href='/account/login'><a>登录</a></Link> <span> |</span> <Link href="/account/login"><a>注册</a></Link>
@@ -76,4 +80,10 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(top)
+const mapStateToProps = (state)=>{
+    return {
+        ...state
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(head)
