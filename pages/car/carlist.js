@@ -4,13 +4,16 @@ import { Row, Col, Button, Table, message } from 'antd'
 
 import fetchHelper from '../../kits/fetchHelper.js'
 import Router from 'next/router'
+import { connect } from 'react-redux'
 
-export default class carlist extends React.Component {
+class carlist extends React.Component {
 
     rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
             //   console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
 
+            // 将用户勾选好的课程数据用reudx管理起来
+            this.props.onSelectedCourse(selectedRows)
             // 计算用户勾选商品总价格,发现selectedRows里面每个数据都有一个sell_price，只要全部相加即可得到总价格
             if (selectedRows.length > 0) {
                 let totalAmount = 0;
@@ -143,3 +146,13 @@ export default class carlist extends React.Component {
 
     }
 }
+
+let mapDispatchToProps = (dispatch) => {
+    return {
+        onSelectedCourse: (courseList) => {
+            dispatch({ type: 'SELECTED_COURSE', courseList: courseList })
+        }
+    }
+}
+
+export default connect(null, mapDispatchToProps)(carlist)
