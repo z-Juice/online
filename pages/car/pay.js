@@ -15,11 +15,10 @@ class pay extends React.Component {
     }
 
     getWXPayUrl() {
-        let orderid = this.props.orderReducer.state.order_id
-        let orderno = this.props.orderReducer.state.order_no
-        let amount = this.props.orderReducer.state.amount
-
-        console.log(orderid, orderno, amount)
+        console.log(this.props.orderReducer)
+        let orderid = this.props.orderReducer.order_id
+        let orderno = this.props.orderReducer.order_no
+        let amount = this.props.orderReducer.amount
 
         fetchHelper.post('/ch/shop/wxpay', { order_id: orderid, out_trade_no: orderno, nonce_str: amount })
             .then(json => {
@@ -70,12 +69,12 @@ class pay extends React.Component {
             <div className={css.CashierBodyTop}>
                 <div className={css.CashierLeft}>
                     <p className={css.cashierTitle}>产品名称：<span id="bookName">
-                        {this.props.orderReducer.state.remark}
+                        {this.props.orderReducer.remark}
                     </span></p>
-                    <p>业务订单：<span>{this.props.orderReducer.state.order_no}</span></p>
+                    <p>业务订单：<span>{this.props.orderReducer.order_no}</span></p>
                 </div>
                 <div className={css.CashierRight}>
-                    <p className={css.org}>应付金额：<span>￥{this.props.orderReducer.state.amount}</span></p>
+                    <p className={css.org}>应付金额：<span>￥{this.props.orderReducer.amount}</span></p>
 
                 </div>
             </div>

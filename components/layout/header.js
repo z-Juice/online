@@ -32,7 +32,7 @@ class head extends React.Component {
     return <header className={css.headtop + " w"}>
       <a href="" className="fl"><img src="/static/img/asset-logoIco.png" alt="" /></a>
       <div className={css.left + " fl"}>
-        <Link href={{pathname:'/index'}}>
+        <Link href={{ pathname: '/index' }}>
           <a className={css.a}>首页</a>
         </Link>
         <a className={css.a} href="">课程</a>
@@ -46,17 +46,21 @@ class head extends React.Component {
         <div className={css.signin}>
           <a href="#" onClick={() => this.props.onSwitchColor('blue')}>蓝色 </a>
           <a href="#" onClick={() => this.props.onSwitchColor('red')}>红色 </a>
-          <Link  href={{ pathname: '/car/carlist' }}>
+          <Link href={{ pathname: '/car/carlist' }}>
             <Badge count={this.props.shopCarCountReducer.count}>
-              <Icon style={{cursor:'pointer'}} type="shopping-cart" className={css.icon} />
+              <Icon style={{ cursor: 'pointer' }} type="shopping-cart" className={css.icon} />
             </Badge>
           </Link>
           {
             user.uid ?
               <span>
-                {/* <!-- 登录 --> */}
-                <a href="#" ><Icon type="bell" theme="twoTone" />个人中心</a>
-                <a href="#" ><img src="/static/img/asset-myImg.jpg" alt="" width="30" height="30" />{user.nick_name}</a>
+                {/* <!-- 登录以后要显示 --> */}
+                <Link href={{ pathname: '/mycenter/myorders' }}>
+                  <a href="#" ><Icon type="bell" theme="twoTone" />个人中心</a>
+                </Link>
+                <a href="#" >
+                  <img src="/static/img/asset-myImg.jpg" alt="" width="30px" height="30px" />
+                  {user.nick_name}</a>
                 <a href="#" onClick={() => { this.logout() }}>退出</a>
               </span>
               :
@@ -80,10 +84,10 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const mapStateToProps = (state)=>{
-    return {
-        ...state
-    }
+const mapStateToProps = (state) => {
+  return {
+    ...state
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(head)
