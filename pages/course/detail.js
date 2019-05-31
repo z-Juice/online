@@ -50,8 +50,8 @@ class detail extends React.Component {
     getmyCourseList() {
         fetchHelper.get('/ch/mycenter/getMyCourseList')
             .then(json => {
-                if (json.status == 0) {
-                    let clistnew = json.message.CourseList.filter(item => item.goods_id == this.props.router.query.cid)
+                if (json.status == 0 && json.message.CourseList) {
+                    let clistnew =  json.message.CourseList.filter(item => item.goods_id == this.props.router.query.cid)
 
                     this.setState({
                         isview: clistnew.length > 0
@@ -191,11 +191,18 @@ class detail extends React.Component {
                                                                 this.state.slist
                                                                 && this.state.slist.filter(item1 => item1.parent_id == item.id)
                                                                     .map((item2, index2) => (
-                                                                        <Col span={12} key="index2">
+                                                                        <Col span={12} key={index2}>
                                                                             {
-                                                                                item2.is_free == 1 ? <span><a href="#">{item2.section_name}</a><span style={{ color: 'red' }}>免费</span></span>
-                                                                                    : this.state.isview ? <a href="#">{item2.section_name}</a> :
-                                                                                        <span>{item2.section_name}</span>
+                                                                                item2.is_free == 1 ? 
+                                                                                <span>
+                                                                                    <a onClick={()=>{Router.push({pathname:'/course/show',query:{sid:item2.id,cid:item2.goods_id}})}}>{item2.section_name}</a>
+                                                                                    <span style={{ color: 'red' }}>免费</span>
+                                                                                </span>
+                                                                                :
+                                                                                this.state.isview ? 
+                                                                                <a onClick={()=>{Router.push({pathname:'/course/show',query:{sid:item2.id,cid:item2.goods_id}})}}>{item2.section_name}</a>
+                                                                                :
+                                                                                <span>{item2.section_name}</span>
                                                                             }
                                                                         </Col>
                                                                     ))

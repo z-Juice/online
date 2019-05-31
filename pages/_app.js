@@ -9,6 +9,7 @@ import { initStore, persistor } from '../store'
 // store持久化步骤2导入PersistGate组件
 import { PersistGate } from 'redux-persist/integration/react'
 import Layout from '../components/layout'
+import AdminLayout from '../components/admin/layout.js'
 /*
 Next.js项目中有一种数据请求是会在组件的await async getInitialProps()方法中去请求数据，而getInitialProps方法会在nodejs服务器执行，不会在浏览器中执行
 保证在nodejs环境中也能利用isomorphic-fetch请求数据服务api，需要全局导入一下
@@ -31,7 +32,7 @@ class MyApp extends App {
 
   render() {
     // 增加一个store ，通过withRedux后自动会将store添加到props中
-    const { Component, pageProps, store } = this.props
+    const { Component, store, ...pageProps } = this.props
     return <Container>
       {/* 调用Layout布局组件并完成子组件Component内容的显示
                 增加： <Provider store = {store}>
@@ -39,7 +40,12 @@ class MyApp extends App {
       <Provider store={store}>
         {/* // store持久化步骤3 将PersistGate组件当做layout的根组件 */}
         <PersistGate persistor={persistor}>
-          <Layout Component={Component} {...pageProps}></Layout>
+          {
+            this.props.pageProps && this.props.pageProps.isadmin ?
+              <AdminLayout Component={Component} {...pageProps}></AdminLayout>
+              :
+              <Layout Component={Component} {...pageProps}></Layout>
+          }
         </PersistGate>
       </Provider>
     </Container>

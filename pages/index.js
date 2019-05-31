@@ -99,7 +99,7 @@ export default class extends React.Component {
         {/* 1.0实现轮播图-begin 使用antd中的走马灯组件：Carousel */}
         <Carousel autoplay>
           {
-            this.props.sliderlist.map((item, index) => (
+            this.props.sliderlist && this.props.sliderlist.map((item, index) => (
               <div key={index}>
                 <img src={item.img_url} />
               </div>
@@ -114,7 +114,7 @@ export default class extends React.Component {
           <Menu style={{ width: 256 }} mode="vertical">
             {
               // 2.0.1 遍历每一门技术
-              this.props.catelist.map((item, index) => (
+              this.props.catelist && this.props.catelist.map((item, index) => (
                 <SubMenu key={item.id} title={item.title}>
                   {
                     // 2.0.2 遍历每一门技术的分组
