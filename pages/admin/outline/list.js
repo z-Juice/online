@@ -27,7 +27,12 @@ class outlinelist extends React.Component {
     {
       title: '操作', dataIndex: 'id', key: 'id', render: (id, row) => {
         return <span>
-          <a className={css.a} href="javascript:;">编辑</a>
+          <a className={css.a} onClick={()=>{
+            Router.push({pathname:'/admin/outline/edit', query:{
+              id:id,pid:row.parent_id,
+              lessonid:row.goods_id
+            }})
+          }}>编辑</a>
           <a className={css.a} href="javascript:;"> | 删除</a>
           {
             row.parent_id == 0 ? <a className={css.a} href="javascript:;"> | 新增子级章节</a>

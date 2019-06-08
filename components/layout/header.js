@@ -44,8 +44,8 @@ class head extends React.Component {
       </div>
       <div className={css.right + " fr"}>
         <div className={css.signin}>
-          <a href="#" onClick={() => this.props.onSwitchColor('blue')}>蓝色 </a>
-          <a href="#" onClick={() => this.props.onSwitchColor('red')}>红色 </a>
+          {/* <a href="#" onClick={() => this.props.onSwitchColor('blue')}>蓝色 </a>
+          <a href="#" onClick={() => this.props.onSwitchColor('red')}>红色 </a> */}
           <Link href={{ pathname: '/car/carlist' }}>
             <Badge count={this.props.shopCarCountReducer.count}>
               <Icon style={{ cursor: 'pointer' }} type="shopping-cart" className={css.icon} />
@@ -55,6 +55,9 @@ class head extends React.Component {
             user.uid ?
               <span>
                 {/* <!-- 登录以后要显示 --> */}
+                <Link href={{pathname:'/admin/course/clist'}}>
+                <a href="#" ><Icon type="bell" theme="twoTone" />后台管理</a>
+                </Link>
                 <Link href={{ pathname: '/mycenter/myorders' }}>
                   <a href="#" ><Icon type="bell" theme="twoTone" />个人中心</a>
                 </Link>
