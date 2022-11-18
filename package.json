@@ -15,7 +15,7 @@
     "html-to-draftjs": "^1.4.0",
     "isomorphic-fetch": "^2.2.1",
     "less": "^3.9.0",
-    "next": "^8.1.0",
+    "next": "^13.0.3",
     "next-redux-wrapper": "^3.0.0-alpha.2",
     "qrcode.react": "^0.9.3",
     "react": "^16.8.6",
